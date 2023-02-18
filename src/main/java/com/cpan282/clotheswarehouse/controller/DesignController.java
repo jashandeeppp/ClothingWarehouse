@@ -22,7 +22,7 @@ import org.springframework.validation.BindingResult;
 @Controller
 @RequestMapping("/design")
 @Slf4j // for logger
-@SessionAttributes("wareHouse") // for increasing lifetime 
+@SessionAttributes("warehouse") // for increasing lifetime 
 public class DesignController {
 
     @GetMapping
@@ -32,19 +32,19 @@ public class DesignController {
 
     @ModelAttribute   // for  passing clothes to form
     public void clothes(Model model){
-        var clothes = EnumSet.allOf(Brand.class);      // this clothes is in html form and then we use for each loop to display.
+        var clothes = EnumSet.allOf(Brand.class);      // this clothes is used in html form and then we use for each loop to display the brand.
         model.addAttribute("clothes",clothes);
         log.info("clothes converted to string: {}",clothes);
     }
 
 
-    @ModelAttribute(name = "wareHouse") // We add cloth to the warehouse.
-    public Warehouse wareHouse(){
+    @ModelAttribute(name = "warehouse") // We add cloth to the warehouse.
+    public Warehouse warehouse(){
         return new Warehouse();
     }
 
 
-    @ModelAttribute   //We bind @ModelAttribute with html form and Cloth model is binded with html as a object.
+    @ModelAttribute   //We bind @ModelAttribute with html form and Cloth model is binded with html as a object through this method.
     public Cloth cloth(){
         return Cloth
             .builder()
@@ -52,11 +52,11 @@ public class DesignController {
     }
 
     @PostMapping
-    public String processClothAddition(@Valid Cloth cloth, BindingResult result, @ModelAttribute Warehouse stock){
+    public String processClothAddition(@Valid Cloth cloth, BindingResult result, @ModelAttribute Warehouse warehouse){
         if(result.hasErrors()){
             return "design";
         }
-        stock.add(cloth);
+        warehouse.add(cloth);
         return "redirect:/design";
     }
 }
