@@ -2,6 +2,7 @@ package com.cpan282.clotheswarehouse.controller;
 
 import java.util.EnumSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.cpan282.clotheswarehouse.model.Cloth;
-import com.cpan282.clotheswarehouse.model.Warehouse;
 import com.cpan282.clotheswarehouse.model.Cloth.Brand;
+import com.cpan282.clotheswarehouse.repository.ClothRepository;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,9 @@ import org.springframework.validation.BindingResult;
 @SessionAttributes("warehouse") // for increasing lifetime 
 public class DesignController {
 
+    @Autowired      // this annotation injects bean to other bean.
+    private ClothRepository clothRepository;
+
     @GetMapping
     public String design(){
         return "design";
@@ -37,13 +41,6 @@ public class DesignController {
         log.info("clothes converted to string: {}",clothes);
     }
 
-
-    @ModelAttribute(name = "warehouse") // We add cloth to the warehouse.
-    public Warehouse warehouse(){
-        return new Warehouse();
-    }
-
-
     @ModelAttribute   //We bind @ModelAttribute with html form and Cloth model is binded with html as a object through this method.
     public Cloth cloth(){
         return Cloth
@@ -52,11 +49,11 @@ public class DesignController {
     }
 
     @PostMapping
-    public String processClothAddition(@Valid Cloth cloth, BindingResult result, @ModelAttribute Warehouse warehouse){
+    public String processClothAddition(@Valid Cloth cloth, BindingResult result){
         if(result.hasErrors()){
             return "design";
         }
-        warehouse.add(cloth);
-        return "redirect:/design";
+        clothRepository.save(cloth);
+        return "redirect:/clothlist";
     }
 }

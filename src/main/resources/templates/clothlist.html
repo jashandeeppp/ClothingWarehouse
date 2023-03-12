@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloth List</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/clothes.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <a class="navbar-brand ms-3" href="home"><img src="/images/clothes.png" alt="" height="30"> Clothes Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="design">Design</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="clothlist">Cloth List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <br>
+
+    <div class="d-flex flex-row mb-3">
+        <div class="card text-silent bg-light mb-3 card border-silent me-3 ms-3" th:each="cloth: ${clothes}"
+            style="width: 18rem;">
+            <h5 class="card-header bg-primary text-light" th:text="${cloth.name}"></h5>
+            <div class="card-body">
+                <h6 class="card-text" th:text="|Year of Creation: ${cloth.yearOfCreation}|"></h6>
+                <h6 class="card-text" th:text="|Price: ${cloth.price}|"></h6>
+                <h6 class="card-text" th:text="|Brand: ${cloth.brandFrom.title}|"></h6>
+                <a href="https://github.com/jashandeeppp/ClothingWarehouse" class="btn btn-danger">Cloth Warehouse
+                    GitHub Link</a>
+            </div>
+        </div>
+        <div class="d-flex flex-column bd-highlight justify-content-center align-items-center p-2 pt-0 card">
+            <form method="post" th:object="${clothesByYearDto}">
+                <div class="form-group">
+                    <label for="yearOfCreation" class="form-label"><b>Brand:</b></label>
+                    <select class="form-control" th:field="*{brand}" aria-label="Brand Selection">
+                        <option th:each="cloth: ${clothesBrand}" th:value="${cloth}" th:text="${cloth.title}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="yearOfCreation" class="form-label"><b>Year of Creation:</b></label>
+                    <input type="number" th:field="*{year}" class="form-control" id="yearOfCreation"
+                        placeholder="Year of Creation">
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3">Search Cloth</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
