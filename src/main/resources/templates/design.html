@@ -21,13 +21,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="home">Home</a>
+                    <a class="nav-link" th:href="@{/home}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="design">Design</a>
+                    <a class="nav-link" th:href="@{/design}">Design</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="clothlist">Cloth List</a>
+                    <a class="nav-link" th:href="@{/clothlist}">Cloth List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/management}">Cloth Management</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
@@ -47,37 +50,39 @@
                 </p>
             </div>
             <div class="form-group">
-                <label for="clothName">Cloth name:</label>
+                <label for="clothName"><b>Cloth name: </b></label>
                 <!-- By using th:field we "bind" fighter model java fields to html input that we will provide-->
-                <input type="text" th:field="*{name}" class="form-control" id="clothName" aria-describedby="ClothHelp"
-                    placeholder="Cloth Name">
-                <div id="ClothHelp" class="form-text text-muted">Provide Cloth Name</div>
+                <input type="text" th:field="*{name}" class="form-control mb-2" id="clothName"
+                    aria-describedby="ClothHelp" placeholder="Cloth Name">
             </div>
-            <span class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
-
+            <span style="color:red" class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
             <div class="form-group">
-                <label for="yearOfCreation" class="form-label">Year of Creation:</label>
-                <input type="number" th:field="*{yearOfCreation}" class="form-control" id="yearOfCreation"
+                <label for="yearOfCreation" class="form-label"><b>Year of Creation:</b></label>
+                <input type="number" th:field="*{yearOfCreation}" class="form-control mb-2" id="yearOfCreation"
                     placeholder="Year of Creation">
             </div>
-            <span class="validationError" th:if="${#fields.hasErrors('yearOfCreation')}"
+            <span style="color:red" class="validationError" th:if="${#fields.hasErrors('yearOfCreation')}"
                 th:errors="*{yearOfCreation}">Year of Creation Error</span>
 
             <div class="form-group">
-                <label for="price" class="form-label">Price:</label>
-                <input type="number" step="0.1" th:field="*{price}" class="form-control" id="price" placeholder="Price">
+                <label for="price" class="form-label"><b>Price:</b></label>
+                <input type="number" step="0.1" th:field="*{price}" class="form-control mb-2" id="price"
+                    placeholder="Price">
             </div>
-            <span class="validationError" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price
+            <span style="color:red" class="validationError" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price
                 Error</span>
 
             <div class="form-group">
-                <select th:field="*{brandFrom}" class="form-control mt-4" aria-label="Brand Selection">
+                <label for="brand" class="form-label"><b>Brand:</b></label>
+                <select th:field="*{brandFrom}" class="form-control" aria-label="Brand Selection">
                     <option th:each="cloth: ${clothes}" th:value="${cloth}" th:text="${cloth.title}"></option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Create Cloth</button>
-
         </form>
+        <br>
+        <form> <a href="/" th:href="@{/}" class="btn btn-warning">Logout</a></form>
+        <br>
     </div>
 </body>
 

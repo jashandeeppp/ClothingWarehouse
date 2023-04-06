@@ -44,7 +44,7 @@ public class Cloth {
     @Min(2021)
     private int yearOfCreation;
     @Min(1000)
-    private BigDecimal price;
+    private double price;
     private Brand brandFrom;
     
     @Builder.Default

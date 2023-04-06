@@ -1,4 +1,9 @@
 # added database to our application with the name of clothwarehouse.
 # We have added provided datasource url clothwarehouse, everytime new datasource url is generated so to make it stable we have to provide it.
-spring.datasource.url = jdbc:h2:mem:clothwarehouse
-spring.datasource.generate-unique-name = false
+# spring.datasource.url = jdbc:h2:mem:clothwarehouse
+# spring.datasource.generate-unique-name = false
+
+spring:
+    datasource:
+        url: jdbc:h2:mem:clothwarehouse
+        generated-unique-name: false

@@ -1,17 +1,22 @@
 package com.cpan282.clotheswarehouse.controller;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cpan282.clotheswarehouse.model.Cloth.Brand;
 import com.cpan282.clotheswarehouse.model.dto.ClothSearchByYearDto;
 import com.cpan282.clotheswarehouse.repository.ClothRepository;
+import com.cpan282.clotheswarehouse.repository.ClothRepositoryPaginated;
 
 
 @Controller
@@ -20,8 +25,13 @@ public class ClothListController {
     
     private ClothRepository clothRepository;        // clothrepository used for CRUD commands such as create, update, delete .
 
-    public ClothListController(ClothRepository clothRepository){        // implemted the ClothRepostory interface.
+    private ClothRepositoryPaginated clothRepositoryPaginated;  // clothRepositoryPaginated for pagination.
+
+    private static final int PAGE_SIZE = 5;
+
+    public ClothListController(ClothRepository clothRepository, ClothRepositoryPaginated clothRepositoryPaginated){        // implemted the ClothRepostory interface.
         this.clothRepository = clothRepository;
+        this.clothRepositoryPaginated = clothRepositoryPaginated;
     }
 
     @GetMapping
@@ -31,7 +41,11 @@ public class ClothListController {
 
     @ModelAttribute
     public void clothes(Model model){
-        model.addAttribute("clothes",clothRepository.findAll());
+        // model.addAttribute("clothes",clothRepository.findAll());
+        var clothPage = clothRepositoryPaginated.findAll(PageRequest.of(0,PAGE_SIZE));   // We provided the first page number and page size(means total number of items need to display on a single page.) and we assign all that data to clothPage and due to PageRequest it automatically divide the items into pages and with the findAll we are getting all the data from fighterRepositoryPaginated.
+        model.addAttribute("clothes", clothPage.getContent());                  // retrieves the clothes from clothRepositoryPaginated by using clothPage which we have used abovea and have all the info
+        model.addAttribute("currentPage", clothPage.getNumber());               // retrives the current page.
+        model.addAttribute("totalPages", clothPage.getTotalPages());            // retrieves the total number of page.
     }
 
     @ModelAttribute   // for  passing clothes to form
@@ -70,5 +84,22 @@ public class ClothListController {
      * findByBrandFromAndYearOfCreation() method searches the database for cloth table that match the values and it return the list of cloth objects.
      * Then the filtered out clothes  we put it into the attribute name clothes which we have already used it and here we are overriding it to display only required clothes.
      */
+
+    @GetMapping("/switchPage")
+    public String switchPage(Model model, 
+        @RequestParam("pageToSwitch") Optional<Integer> pageToSwitch){
+            var page = pageToSwitch.orElse(0);
+            var totalPages = (int) model.getAttribute("totalPages");
+            if (page< 0 || page >= totalPages){
+                return "clothlist";
+            }
+            var clothPage = clothRepositoryPaginated.findAll(PageRequest.of(pageToSwitch.orElse(0), 
+            PAGE_SIZE));
+            model.addAttribute("clothes", clothPage.getContent());
+            model.addAttribute("currentPage", clothPage.getNumber());
+            return "clothlist";
+        }
+
+
 }
 
