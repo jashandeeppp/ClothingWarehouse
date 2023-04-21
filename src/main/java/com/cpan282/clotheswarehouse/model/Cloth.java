@@ -45,6 +45,8 @@ public class Cloth {
     private int yearOfCreation;
     @Min(1000)
     private double price;
+    @Min(1)
+    private int quantity;
     private Brand brandFrom;
     
     @Builder.Default

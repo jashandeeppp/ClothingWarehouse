@@ -33,7 +33,7 @@
                     <a class="nav-link" th:href="@{/management}">Cloth Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link" th:href="@{/distribution}">Distribution Centres</a>
                 </li>
             </ul>
         </div>
@@ -48,6 +48,7 @@
             <div class="card-body">
                 <h6 class="card-text" th:text="|Year of Creation: ${cloth.yearOfCreation}|"></h6>
                 <h6 class="card-text" th:text="|Price: ${cloth.price}|"></h6>
+                <h6 class="card-text" th:text="|Quantity: ${cloth.quantity}|"></h6>
                 <h6 class="card-text" th:text="|Brand: ${cloth.brandFrom.title}|"></h6>
                 <a href="https://github.com/jashandeeppp/ClothingWarehouse" class="btn btn-warning">Cloth Warehouse
                     GitHub Link</a>
@@ -74,7 +75,7 @@
 
         </form>
         <nav aria-label="Page navigation example">
-            <ul class="pagination mt-5">
+            <ul class="pagination mt-2">
                 <li class="page-item">
                     <a class="page-link" th:href="@{/clothlist/switchPage(pageToSwitch=${currentPage - 1})}">Previous</a>
                 </li>

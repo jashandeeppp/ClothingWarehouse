@@ -4,7 +4,6 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -99,7 +98,5 @@ public class ClothListController {
             model.addAttribute("currentPage", clothPage.getNumber());
             return "clothlist";
         }
-
-
 }
 

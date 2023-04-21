@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloth List</title>
+    <link rel="icon" type="image/png"  href="/images/clothes.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <a class="navbar-brand ms-3" th:href="@{/home}"><img src="/images/clothes.png" alt="" height="30"> Clothes Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/home}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/design}">Design</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/clothlist}">Cloth List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/management}">Cloth Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/distribution}">Distribution Centres</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <h1 class="display-6 ms-5 mt-1">Distribution Centres</h1>
+    <h1 class="display-6 ms-5 mt-5" th:if="${message}" style="color: red">No Item Found</h1>
+    <div class="d-flex flex-row mb-3" th:if="${container}">
+        <div class="card text-silent bg-light mb-3 card border-silent me-3 ms-3" th:each="centre: ${centres}"
+            style="width: 18rem;">
+            <h5 class="card-header bg-warning text-light" th:text="${centre.name}"></h5>
+            <div class="card-body">
+                <h6 th:if="${nearStore == centre.name}" style="background-color: green; color: white; text-align: center; border-radius: 10px; "><i>### Nearest ###</i></h6>
+                <h6 class="card-text" th:text="|Items Available: ${centre.itemsAvailable}|"></h6>
+                <h6 class="card-text" th:text="|Latitude: ${centre.latitude}|"></h6>
+                <h6 class="card-text" th:text="|Longitude: ${centre.longitude}|"></h6>
+                <h6 class="card-text">Items</h6>
+                <ul>
+                    <li th:each="item: ${centre.items}">
+                        <h6 class="card-text mb-0" th:text="|Item Name: ${item.name}|"></h6>
+                        <p class="mb-0" th:text="|Brand: ${item.brandFrom}|"></p>
+                        <p class="mb-0" th:text="|Price: ${item.price}|"></p>
+                        <p class="mb-0" th:text="|Quantity: ${item.quantity}|"></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="d-flex flex-column bd-highlight justify-content-center align-items-center p-2 pt-0 card">
+        <form method="post" th:object="${itemSearchbyName}" th:action="@{/distribution}" >
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="name" class="form-label"><b>Name:</b></label>
+                    <input type="text" th:field="*{name}" class="form-control" id="name"
+                        placeholder="name" required>
+                </div>
+                <label for="brand" class="form-label"><b>Brand:</b></label>
+                <select class="form-control" th:field="*{brand}" aria-label="Brand Selection">
+                    <option th:each="cloth: ${clothesBrand}" th:value="${cloth.title}" th:text="${cloth.title}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Search Cloth</button>
+
+        </form>
+</body>
+</html>

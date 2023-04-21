@@ -55,7 +55,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests()
             .requestMatchers(toH2Console()).permitAll()
-            .requestMatchers("/design","/clothlist","/management")
+            .requestMatchers("/design","/clothlist","/management","/distribution")
             .hasRole("USER")
             .anyRequest().permitAll()
 

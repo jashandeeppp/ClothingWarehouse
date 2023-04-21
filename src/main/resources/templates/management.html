@@ -35,13 +35,14 @@
                     <a class="nav-link" th:href="@{/management}">Cloth Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link" th:href="@{/distribution}">Distribution Centres</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <h6 class="display-6 mt-4 mb-5" th:text="|Welcome ${user} !!|"></h6>
+
+    <h6 class="display-6 mt-4 mb-2" th:text="|Welcome ${user} !!|"></h6>
     <div class="d-flex flex-row mb-3">
 
         <div class="card text-silent bg-light mb-3 card border-silent me-3 ms-3" th:each="cloth: ${clothes}"
@@ -50,6 +51,7 @@
             <div class="card-body">
                 <h6 class="card-text" th:text="|Year of Creation: ${cloth.yearOfCreation}|"></h6>
                 <h6 class="card-text" th:text="|Price: ${cloth.price}|"></h6>
+                <h6 class="card-text" th:text="|Quantity: ${cloth.quantity}|"></h6>
                 <h6 class="card-text" th:text="|Brand: ${cloth.brandFrom.title}|"></h6>
                 <a href="https://github.com/jashandeeppp/ClothingWarehouse" class="btn btn-warning pt-0 mb-0">Cloth
                     Warehouse
